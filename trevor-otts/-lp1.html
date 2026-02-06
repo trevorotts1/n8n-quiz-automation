@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Landing Page</title>
+    <link rel="preload" as="image" href="https://storage.googleapis.com/msgsndr/e0fCuMriWSKKNt5xPLFx/media/62aa2f4d-73c8-419e-a67b-a55274cfcb76.png">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Caveat:wght@500&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .background-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background-color: #f5f5f5;
+            background-repeat: repeat;
+            background-size: 400px 400px;
+            z-index: -2;
+            animation: bgScroll 60s linear infinite;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+        }
+        .background-layer.loaded {
+            opacity: 1;
+        }
+        @keyframes bgScroll {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-200px, -200px); }
+        }
+        .floating-action-words {
+            position: fixed;
+            font-family: 'Bangers', cursive;
+            font-size: 48px;
+            color: rgba(0, 0, 0, 0.06);
+            z-index: -1;
+            pointer-events: none;
+            animation: floatWord 20s ease-in-out infinite;
+        }
+        .word1 { top: 10%; left: 5%; animation-delay: 0s; }
+        .word2 { top: 30%; right: 8%; animation-delay: -4s; }
+        .word3 { top: 50%; left: 3%; animation-delay: -8s; }
+        .word4 { top: 70%; right: 5%; animation-delay: -12s; }
+        .word5 { top: 85%; left: 10%; animation-delay: -16s; }
+        .word6 { top: 20%; left: 80%; animation-delay: -2s; }
+        @keyframes floatWord {
+            0%, 100% { transform: translateY(0) rotate(-5deg); opacity: 0.06; }
+            50% { transform: translateY(-30px) rotate(5deg); opacity: 0.1; }
+        }
+        .floating-starburst {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.08;
+        }
+        .starburst1 { top: 15%; left: 2%; animation: pulse 4s ease-in-out infinite; }
+        .starburst2 { top: 45%; right: 3%; animation: pulse 4s ease-in-out infinite 1s; }
+        .starburst3 { top: 75%; left: 5%; animation: pulse 4s ease-in-out infinite 2s; }
+        .starburst4 { top: 60%; right: 6%; animation: pulse 4s ease-in-out infinite 3s; }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.08; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 0.15; }
+        }
+        .starburst-svg {
+            width: 100%;
+            height: 100%;
+            fill: red;
+        }
+        nav {
+            background: white;
+            padding: 12px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 100;
+            min-height: 70px;
+        }
+        .nav-logo-container {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            z-index: 2;
+        }
+        .logo {
+            display: block;
+            width: auto;
+            height: auto;
+            min-height: 40px;
+            max-height: 65px;
+            min-width: 40px;
+            max-width: 180px;
+            object-fit: contain;
+        }
+        .nav-headline-container {
+            flex: 1 1 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+        }
+        .nav-headline {
+            font-family: 'Bangers', cursive;
+            font-size: 28px;
+            color: #000;
+            text-shadow: 2px 2px 0 red, 3px 3px 0 rgba(0,0,0,0.1);
+            letter-spacing: 1.5px;
+            text-align: center;
+            line-height: 1.2;
+            animation: stampPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s both;
+        }
+        @keyframes stampPop {
+            0% { opacity: 0; transform: scale(0); }
+            70% { opacity: 1; transform: scale(1.15); }
+            85% { transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .header-section {
+            width: 100%;
+            background: #000;
+            position: relative;
+            animation: fadeSlideDown 1s ease-out;
+        }
+        @keyframes fadeSlideDown {
+            0% { opacity: 0; transform: translateY(-30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .header-image {
+            width: 100%;
+            display: block;
+        }
+        .animated-border {
+            height: 8px;
+            background: repeating-linear-gradient(
+                90deg,
+                red 0px,
+                red 20px,
+                #000 20px,
+                #000 40px
+            );
+            background-size: 80px 100%;
+            animation: borderMove 2s linear infinite;
+        }
+        @keyframes borderMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 80px 0; }
+        }
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .headline-section {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            animation: popIn 0.8s ease-out 0.3s both;
+        }
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            70% { transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .sub-headline {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 28px;
+            color: #333;
+            line-height: 1.4;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .sub-headline-accent {
+            color: red;
+        }
+        .deco-text {
+            position: absolute;
+            font-family: 'Bangers', cursive;
+            font-size: 24px;
+            color: red;
+            opacity: 0.7;
+            transform: rotate(-12deg);
+            top: -10px;
+            right: 10%;
+            animation: wiggle 2s ease-in-out infinite;
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-12deg); }
+            50% { transform: rotate(-8deg); }
+        }
+        .avatar-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .avatar-card {
+            background: white;
+            border: 5px solid #000;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: slideUp 0.6s ease-out both;
+            cursor: pointer;
+        }
+        .avatar-card:nth-child(1) { animation-delay: 0.5s; }
+        .avatar-card:nth-child(2) { animation-delay: 0.6s; }
+        .avatar-card:nth-child(3) { animation-delay: 0.7s; }
+        .avatar-card:nth-child(4) { animation-delay: 0.8s; }
+        .avatar-card:nth-child(5) { animation-delay: 0.9s; }
+        .avatar-card:nth-child(6) { animation-delay: 1.0s; }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .avatar-card::before {
+            content: 'PICK ME!';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-family: 'Bangers', cursive;
+            font-size: 48px;
+            color: red;
+            text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+            z-index: 20;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .avatar-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.3),
+                0 0 30px rgba(255,0,0,0.3),
+                0 0 60px rgba(255,0,0,0.15);
+            border-color: red;
+            z-index: 10;
+        }
+        .avatar-card:hover::before {
+            transform: translate(-50%, -50%) scale(1) rotate(-5deg);
+            opacity: 1;
+        }
+        .avatar-name-banner {
+            background: linear-gradient(135deg, #000 0%, #333 100%);
+            color: white;
+            font-family: 'Bangers', cursive;
+            font-size: 18px;
+            text-align: center;
+            padding: 12px 10px;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s ease;
+        }
+        .avatar-name-banner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0% { left: -100%; }
+            50%, 100% { left: 100%; }
+        }
+        .avatar-card:hover .avatar-name-banner {
+            background: linear-gradient(135deg, red 0%, #000 100%);
+        }
+        .avatar-image-container {
+            position: relative;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+        .avatar-image-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: transparent;
+            transition: background 0.3s ease;
+            pointer-events: none;
+        }
+        .avatar-card:hover .avatar-image-container::after {
+            background: rgba(0,0,0,0.3);
+        }
+        .avatar-image {
+            width: 100%;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        .avatar-card:hover .avatar-image {
+            transform: scale(1.1);
+        }
+        .avatar-button-container {
+            padding: 18px;
+            background: #fafafa;
+            text-align: center;
+        }
+        .avatar-button {
+            display: inline-block;
+            background: red;
+            color: #000;
+            font-family: 'Bangers', cursive;
+            font-size: 16px;
+            padding: 12px 25px;
+            border: 3px solid #000;
+            border-radius: 5px;
+            text-decoration: none;
+            transform: rotate(-2deg);
+            transition: all 0.3s ease;
+            box-shadow: 4px 4px 0 #000;
+            animation: buttonPulse 2s ease-in-out infinite;
+        }
+        @keyframes buttonPulse {
+            0%, 100% { transform: rotate(-2deg) scale(1); }
+            50% { transform: rotate(-2deg) scale(1.03); }
+        }
+        .avatar-card:hover .avatar-button {
+            transform: rotate(0deg) scale(1.15);
+            background: #000;
+            color: red;
+            box-shadow: 0 0 20px red;
+            animation: none;
+        }
+        .create-own-section {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border: 4px dashed #000;
+            border-radius: 10px;
+            text-align: center;
+            animation: slideUp 0.6s ease-out 1.2s both;
+        }
+        .create-own-banner {
+            font-family: 'Bangers', cursive;
+            font-size: 28px;
+            color: #000;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, red 0%, #fff 100%);
+            padding: 10px 20px;
+            display: inline-block;
+            transform: rotate(-1deg);
+            border: 3px solid #000;
+        }
+        .create-own-prompt {
+            font-family: 'Caveat', cursive;
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .create-own-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            border: 3px solid #000;
+            border-radius: 5px;
+            resize: vertical;
+            margin-bottom: 20px;
+        }
+        .create-own-textarea:focus {
+            outline: none;
+            border-color: red;
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+        }
+        .create-own-button {
+            display: inline-block;
+            background: #000;
+            color: red;
+            font-family: 'Bangers', cursive;
+            font-size: 22px;
+            padding: 14px 40px;
+            border: 3px solid #000;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 4px 4px 0 red;
+        }
+        .create-own-button:hover {
+            background: red;
+            color: #000;
+            transform: translateY(-3px);
+        }
+        .social-proof {
+            text-align: center;
+            padding: 30px 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            color: #333;
+        }
+        .social-proof-stars {
+            color: red;
+            font-size: 24px;
+            display: inline-block;
+            animation: spin 3s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        footer {
+            background: #000;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+        .footer-border-top {
+            height: 8px;
+            background: repeating-linear-gradient(
+                90deg,
+                red 0px,
+                red 20px,
+                #000 20px,
+                #000 40px
+            );
+            background-size: 80px 100%;
+            animation: borderMove 2s linear infinite reverse;
+        }
+        .footer-logo {
+            height: 60px;
+            margin-bottom: 15px;
+            filter: brightness(0) invert(1);
+        }
+        .footer-tagline {
+            font-family: 'Caveat', cursive;
+            font-size: 22px;
+            color: red;
+            margin-bottom: 20px;
+        }
+        .footer-links {
+            margin-bottom: 15px;
+        }
+        .footer-links a {
+            color: #888;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: red;
+        }
+        .copyright {
+            font-size: 12px;
+            color: #666;
+        }
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 10px 15px;
+                gap: 8px;
+            }
+            .nav-logo-container {
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-headline-container {
+                padding: 0;
+            }
+            .nav-headline {
+                font-size: 20px;
+            }
+            .avatar-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                padding: 0 15px;
+            }
+            .sub-headline {
+                font-size: 22px;
+            }
+            .deco-text {
+                display: none;
+            }
+            .avatar-name-banner {
+                font-size: 20px;
+            }
+            .avatar-button {
+                font-size: 18px;
+                padding: 12px 25px;
+            }
+            .create-own-section {
+                margin: 30px 15px;
+                padding: 20px;
+            }
+            .create-own-banner {
+                font-size: 22px;
+            }
+            .avatar-card::before {
+                font-size: 36px;
+            }
+        }
+        @media (max-width: 480px) {
+            .logo {
+                max-height: 50px;
+                max-width: 140px;
+            }
+            .nav-headline {
+                font-size: 17px;
+            }
+            .sub-headline {
+                font-size: 19px;
+            }
+            .avatar-name-banner {
+                font-size: 18px;
+                padding: 10px;
+            }
+            .avatar-button {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+            .avatar-card::before {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-layer"></div>
+    
+    <div class="floating-action-words word1">POW!</div>
+    <div class="floating-action-words word2">BAM!</div>
+    <div class="floating-action-words word3">ZAP!</div>
+    <div class="floating-action-words word4">BOOM!</div>
+    <div class="floating-action-words word5">WHAM!</div>
+    <div class="floating-action-words word6">KAPOW!</div>
+
+    <div class="floating-starburst starburst1">
+        <svg class="starburst-svg" viewBox="0 0 100 100">
+            <polygon points="50,0 61,35 98,35 68,57 79,91 50,70 21,91 32,57 2,35 39,35"/>
+        </svg>
+    </div>
+    <div class="floating-starburst starburst2">
+        <svg class="starburst-svg" viewBox="0 0 100 100">
+            <polygon points="50,0 61,35 98,35 68,57 79,91 50,70 21,91 32,57 2,35 39,35"/>
+        </svg>
+    </div>
+    <div class="floating-starburst starburst3">
+        <svg class="starburst-svg" viewBox="0 0 100 100">
+            <polygon points="50,0 61,35 98,35 68,57 79,91 50,70 21,91 32,57 2,35 39,35"/>
+        </svg>
+    </div>
+    <div class="floating-starburst starburst4">
+        <svg class="starburst-svg" viewBox="0 0 100 100">
+            <polygon points="50,0 61,35 98,35 68,57 79,91 50,70 21,91 32,57 2,35 39,35"/>
+        </svg>
+    </div>
+
+    <nav>
+        <div class="nav-logo-container">
+            <img src="https://storage.googleapis.com/msgsndr/Mct54Bwi1KlNouGXQcDX/media/65c2d68b6fe3b723b1fe65b6.png" alt="Logo" class="logo">
+        </div>
+        <div class="nav-headline-container">
+            <h1 class="nav-headline">BE HONEST... WHICH ONE ARE YOU? 👀</h1>
+        </div>
+    </nav>
+
+    <div class="header-section">
+        <img src="https://storage.googleapis.com/msgsndr/e0fCuMriWSKKNt5xPLFx/media/62aa2f4d-73c8-419e-a67b-a55274cfcb76.png" alt="Quiz Header" class="header-image">
+    </div>
+    <div class="animated-border"></div>
+
+    <main class="main-content">
+        <div class="headline-section">
+            <p class="sub-headline">Still manually doing tasks that a <span class="sub-headline-accent">robot could handle while you sleep?</span> Find your automation alter ego below and let's get you some freedom. 🚀</p>
+            <span class="deco-text">QUIZ TIME!</span>
+        </div>
+
+        <div class="avatar-grid">
+            <div class="avatar-card">
+                <div class="avatar-name-banner">MANUAL MARCUS — The DIY Grinder</div>
+                <div class="avatar-image-container">
+                    <img src="https://storage.googleapis.com/msgsndr/Mct54Bwi1KlNouGXQcDX/media/e658e4b5-9c05-4e45-9ec0-2c50b421572a.png" alt="Manual Marcus" class="avatar-image">
+                </div>
+                <div class="avatar-button-container">
+                    <a href="blackceo.us/avatar1" class="avatar-button">THAT'S ME! 🙋‍♂️</a>
+                </div>
+            </div>
+
+            <div class="avatar-card">
+                <div class="avatar-name-banner">LEAD-TRACKING LISA — The Leaky Pipeline</div>
+                <div class="avatar-image-container">
+                    <img src="https://storage.googleapis.com/msgsndr/Mct54Bwi1KlNouGXQcDX/media/a2283352-6def-4fea-b3b1-550036bbd6f9.png" alt="Lead-tracking Lisa" class="avatar-image">
+                </div>
+                <div class="avatar-button-container">
+                    <a href="blackceo.us/avatar2" class="avatar-button">THAT'S ME! 🙋‍♀️</a>
+                </div>
+            </div>
+
+            <div class="avatar-card">
+                <div class="avatar-name-banner">ONBOARDING OLIVER — The Chaotic First Impression</div>
+                <div class="avatar-image-container">
+                    <img src="https://storage.googleapis.com/msgsndr/Mct54Bwi1KlNouGXQcDX/media/c335f367-621a-48f0-b998-457926fec2e9.png" alt="Onboarding Oliver" class="avatar-image">
+                </div>
+                <div class="avatar-button-container">
+                    <a href="blackceo.us/avatar3" class="avatar-button">YEP, THIS ONE! 😅</a>
+                </div>
+            </div>
+
+            <div class="avatar-card">
+                <div class="avatar-name-banner">SURVEY SANDRA — The Blindfolded Builder</div>
+                <div class="avatar-image-container">
+                    <img src="https://storage.googleapis.com/msgsndr/Mct54Bwi1KlNouGXQcDX/media/d0c05b91-ec44-4fb9-9ed9-3b63071d1986.png" alt="Survey Sandra" class="avatar-image">
+                </div>
+                <div class="avatar-button-container">
+                    <a href="blackceo.us/avatar4" class="avatar-button">I FEEL SEEN! 👀</a>
+                </div>
+            </div>
+
+            <div class="avatar-card">
+                <div class="avatar-name-banner">WORKFLOW WENDY — The Human Glue</div>
+                <div class="avatar-image-container">
+                    <img src="https://storage.googleapis.com/msgsndr/Mct54Bwi1KlNouGXQcDX/media/6eb14e5a-02b6-445a-892d-ac346d29165a.png" alt="Workflow Wendy" class="avatar-image">
+                </div>
+                <div class="avatar-button-container">
+                    <a href="blackceo.us/avatar5" class="avatar-button">DON'T JUDGE ME! 😩</a>
+                </div>
+            </div>
+
+            <div class="avatar-card">
+                <div class="avatar-name-banner">TAX-PREP TONY — The Shoebox Scrambler</div>
+                <div class="avatar-image-container">
+                    <img src="https://storage.googleapis.com/msgsndr/Mct54Bwi1KlNouGXQcDX/media/f9c5d8ed-ffc2-4038-896c-897304b5dbc8.png" alt="Tax-prep Tony" class="avatar-image">
+                </div>
+                <div class="avatar-button-container">
+                    <a href="blackceo.us/avatar6" class="avatar-button">I'M IN THIS PHOTO! 📦</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="create-own-section">
+            <div class="create-own-banner">🤔 NONE OF THESE? YOU MIGHT BE A NEW CHARACTER!</div>
+            <p class="create-own-prompt">Maybe you're a mix of all six, or your struggle has its own whole storyline. Drop your situation below and we'll tell you which avatar you really are...</p>
+            <textarea class="create-own-textarea" placeholder="Example: I'm great at getting clients but I spend 3 hours a day copy-pasting info between apps and my phone is basically a second brain that I can't turn off..."></textarea>
+            <a href="blackceo.us/edgecase" class="create-own-button">FIND MY AVATAR! 🔥</a>
+        </div>
+
+        <div class="social-proof">
+            <span class="social-proof-stars">&#9733;</span>
+            Join 5,000+ Black entrepreneurs who stopped being the bottleneck in their own business
+            <span class="social-proof-stars">&#9733;</span>
+        </div>
+    </main>
+
+    <div class="footer-border-top"></div>
+    <footer>
+        <img src="https://storage.googleapis.com/msgsndr/Mct54Bwi1KlNouGXQcDX/media/65c2d68b6fe3b723b1fe65b6.png" alt="Logo" class="footer-logo">
+        <p class="footer-tagline">Your business should run like you — not on you. ✊🏾</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms</a>
+            <a href="#">Contact</a>
+        </div>
+        <p class="copyright">All rights reserved.</p>
+    </footer>
+
+    <script>
+    (function() {
+        function loadBg() {
+            var bg = document.querySelector('.background-layer');
+            if (!bg) return;
+            bg.style.backgroundImage = "url('')";
+            setTimeout(function() { bg.classList.add('loaded'); }, 100);
+        }
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            setTimeout(loadBg, 50);
+        } else {
+            document.addEventListener('DOMContentLoaded', loadBg);
+            window.addEventListener('load', loadBg);
+        }
+    })();
+    </script>
+</body>
+</html>
